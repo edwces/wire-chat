@@ -6,5 +6,18 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  return <AppShell>{children}</AppShell>;
+  return (
+    <AppShell
+      styles={(theme) => ({
+        main: {
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[8]
+              : theme.colors.gray[0],
+        },
+      })}
+    >
+      {children}
+    </AppShell>
+  );
 }
