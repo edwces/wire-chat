@@ -1,0 +1,15 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "unicorn", "react"],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:react/recommended"],
+  "rules": {
+    "unicorn/filename-case": "off",
+    "react/react-in-jsx-scope": "off",
+    "unicorn/prevent-abbreviations": "off"
+  }
+}
