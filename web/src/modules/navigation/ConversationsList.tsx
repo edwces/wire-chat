@@ -3,7 +3,7 @@ import { Conversation } from "./Conversation";
 
 export function ConversationsList() {
   return (
-    <Stack spacing={10}>
+    <Stack spacing={10} mt={20}>
       <Conversation />
       <Conversation />
       <Conversation />
