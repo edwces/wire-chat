@@ -4,7 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:dev": "tsnd --respawn src/app.ts"
+    "start:dev": "tsnd --respawn src/app.ts",
+    "start": "node ./dist",
+    "build": "tsc",
+    "format": "prettier --write ./src",
+    "lint": "eslint ./src"
   },
   "dependencies": {
     "@mikro-orm/core": "^5.1.2",
