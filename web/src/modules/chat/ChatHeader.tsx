@@ -1,6 +1,6 @@
 import { Avatar, Group, Text } from "@mantine/core";
 
-export function ChannelHeader() {
+export function ChatHeader() {
   return (
     <header>
       <Group>

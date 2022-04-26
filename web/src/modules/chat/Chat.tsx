@@ -1,18 +1,18 @@
 import { Divider, Stack } from "@mantine/core";
-import { ChannelHeader } from "./ChannelHeader";
+import { ChatHeader } from "./ChatHeader";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
-interface ChannelProps {
+interface ChatProps {
   image: string;
   name: string;
 }
 
-export function Channel({ image, name }: ChannelProps) {
+export function Chat({ image, name }: ChatProps) {
   return (
     <section>
       <Stack sx={{ height: "95vh" }}>
-        <ChannelHeader />
+        <ChatHeader />
         <Divider mb={10} />
         <MessageList />
         <Divider mt={10} />

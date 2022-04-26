@@ -1,15 +1,21 @@
 import { Stack } from "@mantine/core";
-import { Conversation } from "./Conversation";
+import { Conversation } from "../../types/interfaces";
+import { ConversationButton } from "./ConversationButton";
 
-export function ConversationsList() {
+interface ConversationsListProps {
+  data?: Conversation[];
+}
+
+export function ConversationsList({ data = [] }: ConversationsListProps) {
   return (
     <Stack spacing={10} mt={20}>
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
+      {data.map((conversation) => (
+        <ConversationButton
+          key={conversation.id}
+          image={undefined}
+          name={"Ben Terry"}
+        />
+      ))}
     </Stack>
   );
 }

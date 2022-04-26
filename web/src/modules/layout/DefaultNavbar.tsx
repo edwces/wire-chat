@@ -1,8 +1,14 @@
 import { Navbar, Title } from "@mantine/core";
+import { useQuery } from "react-query";
+import { axios } from "../../lib/axios";
 import { ConversationSearch, ConversationsList } from "../navigation";
 import { UserProfile } from "../navigation/UserProfile";
 
 export function DefaultNavbar() {
+  const { data } = useQuery(["user", 1, "conversations"], () =>
+    axios.get("/user/1/conversations").then((response) => response.data)
+  );
+
   return (
     <Navbar width={{ base: 300 }} p="md">
       <Navbar.Section>
@@ -10,7 +16,7 @@ export function DefaultNavbar() {
       </Navbar.Section>
       <Navbar.Section grow>
         <ConversationSearch />
-        <ConversationsList />
+        <ConversationsList data={data} />
       </Navbar.Section>
       <Navbar.Section>
         <UserProfile />

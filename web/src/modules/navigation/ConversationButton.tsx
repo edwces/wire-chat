@@ -1,6 +1,11 @@
 import { Avatar, Group, Text, UnstyledButton } from "@mantine/core";
 
-export function Conversation() {
+interface ConversationButtonProps {
+  name: string;
+  image: string;
+}
+
+export function ConversationButton({ name, image }: ConversationButtonProps) {
   return (
     <UnstyledButton
       sx={(theme) => ({
@@ -10,8 +15,8 @@ export function Conversation() {
       })}
     >
       <Group spacing={5} p={5}>
-        <Avatar size="lg" />
-        <Text size="lg">Berry Terry</Text>
+        <Avatar size="lg" src={image} />
+        <Text size="lg">{name}</Text>
       </Group>
     </UnstyledButton>
   );
