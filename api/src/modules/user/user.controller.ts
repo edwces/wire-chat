@@ -17,3 +17,11 @@ export const getAllUserConversations = async (
 
   response.json(user?.participants.toJSON().map((item) => item.conversation));
 };
+
+export const getUserById = async (request: Request, response: Response) => {
+  const id = Number.parseInt(request.params.id);
+
+  const user = await request.em.findOne(User, id);
+
+  response.json(user);
+};
