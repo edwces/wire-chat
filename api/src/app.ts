@@ -4,6 +4,7 @@ import express from "express";
 import { mikroOrmConfig } from "./config";
 import cors from "cors";
 import { userRoutes } from "./modules/user";
+import { conversationRouter } from "./modules/conversation";
 
 export async function bootstrap() {
   const app = express();
@@ -19,6 +20,7 @@ export async function bootstrap() {
   });
 
   app.use("/user", userRoutes);
+  app.use("/conversation", conversationRouter);
 
   app.listen(3001, () => {
     console.log("Listening on http://localhost:3000");
