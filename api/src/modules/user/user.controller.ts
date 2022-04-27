@@ -8,8 +8,12 @@ export const getAllUserConversations = async (
   const id = Number.parseInt(request.params.id);
 
   const user = await request.em.findOneOrFail(User, id, {
-    populate: ["participants", "participants.conversation"],
+    populate: [
+      "participants",
+      "participants.conversation",
+      "participants.conversation.messages",
+    ],
   });
 
-  response.json(user?.participants);
+  response.json(user?.participants.toJSON().map((item) => item.conversation));
 };

@@ -14,10 +14,10 @@ export class Participant {
   @PrimaryKey()
   id!: number;
 
-  @ManyToOne()
+  @ManyToOne(() => User)
   user!: User;
 
-  @ManyToOne()
+  @ManyToOne(() => Conversation)
   conversation!: Conversation;
 
   @OneToMany(() => Message, (message) => message.participant)
