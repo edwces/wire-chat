@@ -1,5 +1,26 @@
-import { TextInput } from "@mantine/core";
+import { Button, Group, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/hooks";
+import { useConnection } from "../../stores/useConnection";
 
 export function MessageInput() {
-  return <TextInput></TextInput>;
+  const form = useForm({
+    initialValues: {
+      message: "",
+    },
+  });
+  const connection = useConnection((state) => state.connection);
+
+  return (
+    <form
+      onSubmit={form.onSubmit((values) => connection?.send(values.message))}
+    >
+      <Group>
+        <TextInput
+          sx={{ flexGrow: 1 }}
+          {...form.getInputProps("message")}
+        ></TextInput>
+        <Button type="submit">Send</Button>
+      </Group>
+    </form>
+  );
 }
