@@ -2,7 +2,7 @@ import { Navbar, Title } from "@mantine/core";
 import { useQuery } from "react-query";
 import { axios } from "../../lib/axios";
 import { ConversationSearch, ConversationsList } from "../navigation";
-import { UserProfile } from "../navigation/UserProfile";
+import { UserProfileButton } from "../navigation/UserProfileButton";
 
 export function DefaultNavbar() {
   const { data } = useQuery(["user", 1, "conversations"], () =>
@@ -19,7 +19,7 @@ export function DefaultNavbar() {
         <ConversationsList data={data} />
       </Navbar.Section>
       <Navbar.Section>
-        <UserProfile />
+        <UserProfileButton />
       </Navbar.Section>
     </Navbar>
   );

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Chat } from "../modules/chat";
+import { ChatSection } from "../modules/chat";
 import { AppLayout } from "../modules/layout";
 
 const Home: NextPage = () => {
@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AppLayout>
-        <Chat />
+        <ChatSection />
       </AppLayout>
     </div>
   );

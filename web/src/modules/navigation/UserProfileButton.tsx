@@ -1,6 +1,6 @@
 import { Avatar, Group, UnstyledButton, Text } from "@mantine/core";
 
-export function UserProfile() {
+export function UserProfileButton() {
   return (
     <UnstyledButton
       p="md"

@@ -5,12 +5,12 @@ import { ChatHeader } from "./ChatHeader";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
-interface ChatProps {
+interface ChatSectionProps {
   image: string;
   name: string;
 }
 
-export function Chat({ image, name }: ChatProps) {
+export function ChatSection({ image, name }: ChatSectionProps) {
   const { data } = useQuery(["conversation", 1, "messages"], () =>
     axios.get("/conversation/1/messages").then((response) => response.data)
   );
