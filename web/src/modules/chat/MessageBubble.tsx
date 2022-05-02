@@ -5,5 +5,9 @@ interface MessageBubbleProps {
 }
 
 export function MessageBubble({ content }: MessageBubbleProps) {
-  return <Paper>{content}</Paper>;
+  return (
+    <Paper p={5} shadow="xs">
+      {content}
+    </Paper>
+  );
 }
