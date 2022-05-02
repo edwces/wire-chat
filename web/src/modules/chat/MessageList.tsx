@@ -1,15 +1,18 @@
-import { Paper, ScrollArea, Stack } from "@mantine/core";
+import { ScrollArea, Stack } from "@mantine/core";
+import { Message } from "../../types/interfaces";
+import { MessageBubble } from "./MessageBubble";
 
-export function MessageList() {
+interface MessageListProps {
+  data: Message[];
+}
+
+export function MessageList({ data }: MessageListProps) {
   return (
     <ScrollArea sx={{ flexGrow: 1 }}>
       <Stack spacing={5} sx={{ alignItems: "flex-start" }}>
-        <Paper p={5} shadow="xs">
-          Hello there
-        </Paper>
-        <Paper p={5} shadow="xs" sx={{ alignSelf: "flex-end" }}>
-          Oh Hi!
-        </Paper>
+        {data.map((message) => (
+          <MessageBubble key={message.id} content={message.content} />
+        ))}
       </Stack>
     </ScrollArea>
   );
