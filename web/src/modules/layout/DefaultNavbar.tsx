@@ -5,7 +5,7 @@ import { ConversationSearch, ConversationsList } from "../navigation";
 import { UserProfileButton } from "../navigation/UserProfileButton";
 
 export function DefaultNavbar() {
-  const { data } = useQuery(["user", 1, "conversations"], () =>
+  const { data } = useQuery(["user", "conversations", 1], () =>
     axios.get("/user/1/conversations").then((response) => response.data)
   );
 
