@@ -27,7 +27,7 @@ export async function bootstrap() {
   const server = http.createServer(app);
   const wss = new webSocket.Server({ server });
 
-  wss.on("connection", wsHandle);
+  wss.on("connection", wsHandle(orm));
 
   server.listen(3001, () => {
     console.log("Server started at http://localhost:3001");

@@ -14,7 +14,7 @@ export function MessageInput() {
     <form
       onSubmit={form.onSubmit((values) => {
         connection?.send(
-          JSON.stringify({ type: "TEXT_MESSAGE", body: values.message })
+          JSON.stringify({ type: "TEXT_MESSAGE", data: values.message })
         );
         form.reset();
       })}
