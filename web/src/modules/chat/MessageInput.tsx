@@ -12,7 +12,12 @@ export function MessageInput() {
 
   return (
     <form
-      onSubmit={form.onSubmit((values) => connection?.send(values.message))}
+      onSubmit={form.onSubmit((values) => {
+        connection?.send(
+          JSON.stringify({ type: "TEXT_MESSAGE", body: values.message })
+        );
+        form.reset();
+      })}
     >
       <Group>
         <TextInput

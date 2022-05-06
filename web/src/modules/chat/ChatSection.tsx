@@ -11,7 +11,7 @@ interface ChatSectionProps {
 }
 
 export function ChatSection({ image, name }: ChatSectionProps) {
-  const { data } = useQuery(["conversation", 1, "messages"], () =>
+  const { data } = useQuery(["conversation", "messages", 1], () =>
     axios.get("/conversation/1/messages").then((response) => response.data)
   );
 
