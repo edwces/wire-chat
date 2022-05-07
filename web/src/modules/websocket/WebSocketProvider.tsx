@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useQueryClient } from "react-query";
+import { useEffectOnce } from "../../hooks/useEffectOnce";
 import { useConnection } from "../../stores/useConnection";
 
 interface WebSocketProviderProps {
@@ -10,7 +11,7 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
   const connect = useConnection((state) => state.connect);
   const queryClient = useQueryClient();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     const socket = new WebSocket("ws://localhost:3001");
 
     socket.addEventListener("open", (_) => {
