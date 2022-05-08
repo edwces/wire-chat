@@ -15,7 +15,9 @@ export const getAllUserConversations = async (
     ],
   });
 
-  response.json(user?.participants.toJSON().map((item) => item.conversation));
+  response.json(
+    user?.participants.toArray().map((participant) => participant.conversation)
+  );
 };
 
 export const getUserById = async (request: Request, response: Response) => {
