@@ -6,13 +6,12 @@ import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
 interface ChatSectionProps {
-  image: string;
-  name: string;
+  id: number;
 }
 
-export function ChatSection({ image, name }: ChatSectionProps) {
-  const { data } = useQuery(["conversation", "messages", 1], () =>
-    axios.get("/conversation/1/messages").then((response) => response.data)
+export function ChatSection({ id }: ChatSectionProps) {
+  const { data } = useQuery(["conversation", "messages", id], () =>
+    axios.get(`/conversation/${id}/messages`).then((response) => response.data)
   );
 
   return (
