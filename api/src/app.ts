@@ -3,11 +3,12 @@ import { EntityManager } from "@mikro-orm/postgresql";
 import express from "express";
 import { mikroOrmConfig } from "./config";
 import cors from "cors";
-import { userRoutes } from "./modules/user";
+import { userRouter } from "./modules/user";
 import { conversationRouter } from "./modules/conversation";
 import webSocket from "ws";
 import http from "node:http";
 import { wsHandle } from "./websocket";
+import { authRouter } from "./modules/auth";
 
 export async function bootstrap() {
   const app = express();
@@ -21,8 +22,9 @@ export async function bootstrap() {
     });
   });
 
-  app.use("/user", userRoutes);
+  app.use("/user", userRouter);
   app.use("/conversation", conversationRouter);
+  app.use("/auth", authRouter);
 
   const server = http.createServer(app);
   const wss = new webSocket.Server({ server });

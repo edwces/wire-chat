@@ -15,9 +15,11 @@
     "@mikro-orm/core": "^5.1.2",
     "@mikro-orm/postgresql": "^5.1.2",
     "@types/ws": "^8.5.3",
+    "argon2": "^0.28.5",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
     "ws": "^8.5.0"
   },
   "devDependencies": {
