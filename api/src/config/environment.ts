@@ -3,8 +3,16 @@ import path from "node:path";
 
 dotenv.config({ path: path.join(__dirname, "../", "../", ".env.local") });
 
-const { PORT, DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD } =
-  process.env;
+const {
+  PORT,
+  DB_HOST,
+  DB_PORT,
+  DB_NAME,
+  DB_USERNAME,
+  DB_PASSWORD,
+  JWT_SECRET_ACCESS,
+  JWT_SECRET_REFRESH,
+} = process.env;
 
 export default {
   port: Number.parseInt(PORT!),
@@ -14,5 +22,9 @@ export default {
     name: DB_NAME,
     username: DB_USERNAME,
     password: DB_PASSWORD,
+  },
+  jwt: {
+    refreshSecret: JWT_SECRET_ACCESS!,
+    accessSecret: JWT_SECRET_REFRESH!,
   },
 };

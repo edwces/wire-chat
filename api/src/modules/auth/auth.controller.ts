@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { User } from "../../db/entities/user.entity";
 import argon2 from "argon2";
+import jwt from "jsonwebtoken";
+import { environment } from "../../config";
 
 export const registerUser = async (request: Request, response: Response) => {
   const { email, password, name } = request.body;
@@ -18,8 +20,6 @@ export const registerUser = async (request: Request, response: Response) => {
   });
   await request.em.persistAndFlush(newUser);
 
-  // TODO: create refresh and access tokens
-
   response.json({ success: true });
 };
 
@@ -34,7 +34,18 @@ export const loginUser = async (request: Request, response: Response) => {
   const isValid = argon2.verify(user.password, password);
   if (!isValid) return response.status(401);
 
-  // TODO: create refresh token and access token
-  // TODO: return user details without password
-  response.json(user);
+  const userDetails = {
+    email: user.email,
+    name: user.name,
+    id: user.id,
+  };
+
+  const refreshToken = jwt.sign(userDetails, environment.jwt.refreshSecret, {
+    expiresIn: 100 * 60 * 60 * 60,
+  });
+  const accessToken = jwt.sign(userDetails, environment.jwt.accessSecret, {
+    expiresIn: 100 * 60 * 60,
+  });
+
+  response.json({ user, accessToken, refreshToken });
 };
