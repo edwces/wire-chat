@@ -1,4 +1,4 @@
-import { TextInput, PasswordInput, Button } from "@mantine/core";
+import { TextInput, PasswordInput, Button, Space, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FormEvent } from "react";
 import { LoginFields } from "../../types/interfaces";
@@ -17,12 +17,15 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
-      <TextInput required label="email" {...form.getInputProps("email")} />
-      <PasswordInput
-        required
-        label="password"
-        {...form.getInputProps("password")}
-      />
+      <Stack spacing="sm">
+        <TextInput required label="email" {...form.getInputProps("email")} />
+        <PasswordInput
+          required
+          label="password"
+          {...form.getInputProps("password")}
+        />
+      </Stack>
+      <Space h="xl" />
       <Button type="submit">Submit</Button>
     </form>
   );

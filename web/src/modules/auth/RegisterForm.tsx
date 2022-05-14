@@ -1,4 +1,4 @@
-import { TextInput, PasswordInput, Button } from "@mantine/core";
+import { TextInput, PasswordInput, Button, Space, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FormEvent } from "react";
 import { RegisterFields } from "../../types/interfaces";
@@ -18,13 +18,16 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
-      <TextInput required label="name" {...form.getInputProps("name")} />
-      <TextInput required label="email" {...form.getInputProps("email")} />
-      <PasswordInput
-        required
-        label="password"
-        {...form.getInputProps("password")}
-      />
+      <Stack spacing="sm">
+        <TextInput required label="name" {...form.getInputProps("name")} />
+        <TextInput required label="email" {...form.getInputProps("email")} />
+        <PasswordInput
+          required
+          label="password"
+          {...form.getInputProps("password")}
+        />
+      </Stack>
+      <Space h="xl" />
       <Button type="submit">Submit</Button>
     </form>
   );
