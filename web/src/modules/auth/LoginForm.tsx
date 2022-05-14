@@ -1,5 +1,14 @@
-import { TextInput, PasswordInput, Button, Space, Stack } from "@mantine/core";
+import {
+  TextInput,
+  PasswordInput,
+  Button,
+  Space,
+  Stack,
+  Group,
+  Anchor,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { NextLink } from "@mantine/next";
 import { FormEvent } from "react";
 import { LoginFields } from "../../types/interfaces";
 
@@ -26,7 +35,17 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         />
       </Stack>
       <Space h="xl" />
-      <Button type="submit">Submit</Button>
+      <Group position="apart">
+        <Anchor
+          component={NextLink}
+          size="xs"
+          color="gray"
+          href="/account/register"
+        >
+          Don't have an account? Register here
+        </Anchor>
+        <Button type="submit">Submit</Button>
+      </Group>
     </form>
   );
 }
