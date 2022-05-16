@@ -5,9 +5,13 @@ import { RegisterFields } from "../../types/interfaces";
 
 interface RegisterFormProps {
   onSubmit: (values: RegisterFields, event?: FormEvent<Element>) => void;
+  isSubmitting?: boolean;
 }
 
-export function RegisterForm({ onSubmit }: RegisterFormProps) {
+export function RegisterForm({
+  onSubmit,
+  isSubmitting = false,
+}: RegisterFormProps) {
   const form = useForm<RegisterFields>({
     initialValues: {
       name: "",
@@ -19,16 +23,29 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Stack spacing="sm">
-        <TextInput required label="name" {...form.getInputProps("name")} />
-        <TextInput required label="email" {...form.getInputProps("email")} />
+        <TextInput
+          required
+          disabled={isSubmitting}
+          label="name"
+          {...form.getInputProps("name")}
+        />
+        <TextInput
+          required
+          disabled={isSubmitting}
+          label="email"
+          {...form.getInputProps("email")}
+        />
         <PasswordInput
           required
+          disabled={isSubmitting}
           label="password"
           {...form.getInputProps("password")}
         />
       </Stack>
       <Space h="xl" />
-      <Button type="submit">Submit</Button>
+      <Button type="submit" loading={isSubmitting}>
+        Submit
+      </Button>
     </form>
   );
 }

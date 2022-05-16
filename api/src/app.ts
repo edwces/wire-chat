@@ -9,12 +9,14 @@ import webSocket from "ws";
 import http from "node:http";
 import { wsHandle } from "./websocket";
 import { authRouter } from "./modules/auth";
+import bodyParser from "body-parser";
 
 export async function bootstrap() {
   const app = express();
   const orm = await MikroORM.init(mikroOrmConfig);
 
   app.use(cors({ origin: "*" }));
+  app.use(bodyParser.json());
   app.use((request, _, next) => {
     RequestContext.create(orm.em, () => {
       request.em = orm.em as EntityManager;
