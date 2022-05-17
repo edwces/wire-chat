@@ -2,22 +2,18 @@ import { Paper, Space, Title } from "@mantine/core";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { axios } from "../../lib/axios";
 import { RegisterForm } from "../../modules/auth";
 import { AuthLayout } from "../../modules/layout/AuthLayout";
-import { LoginFields } from "../../types/interfaces";
+import { register } from "../../services";
+import { RegisterFields } from "../../types/interfaces";
 
 const Register: NextPage = () => {
   const router = useRouter();
-  const [isSubmitting, setSubmitting] = useState(false);
 
-  const callRegister = async (values: LoginFields) => {
-    setSubmitting(true);
-    const response = await axios.post("/auth/register", values);
-    console.log(response.data);
+  const callRegister = async (values: RegisterFields) => {
+    const data = await register(values);
+    console.log(data);
     router.push("/account/login");
-    setSubmitting(false);
   };
 
   return (
@@ -31,7 +27,7 @@ const Register: NextPage = () => {
         <Paper radius="md" p="xl" withBorder sx={{ width: 400 }}>
           <Title>Register</Title>
           <Space h="lg" />
-          <RegisterForm onSubmit={callRegister} isSubmitting={isSubmitting} />
+          <RegisterForm onSubmit={callRegister} />
         </Paper>
       </AuthLayout>
     </>

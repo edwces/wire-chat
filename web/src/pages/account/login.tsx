@@ -1,10 +1,21 @@
 import { Paper, Space, Title } from "@mantine/core";
 import { NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { LoginForm } from "../../modules/auth";
 import { AuthLayout } from "../../modules/layout/AuthLayout";
+import { login } from "../../services";
+import { LoginFields } from "../../types/interfaces";
 
 const Login: NextPage = () => {
+  const router = useRouter();
+
+  const callLogin = async (values: LoginFields) => {
+    const data = await login(values);
+    console.log(data);
+    router.push("/");
+  };
+
   return (
     <div>
       <Head>
@@ -16,7 +27,7 @@ const Login: NextPage = () => {
         <Paper radius="md" p="xl" withBorder sx={{ width: 400 }}>
           <Title>Login</Title>
           <Space h="lg" />
-          <LoginForm onSubmit={(values) => console.log(values)} />
+          <LoginForm onSubmit={callLogin} />
         </Paper>
       </AuthLayout>
     </div>
