@@ -20,7 +20,7 @@ export const registerUser = async (request: Request, response: Response) => {
   });
   await request.em.persistAndFlush(newUser);
 
-  response.json({ success: true });
+  response.status(201);
 };
 
 export const loginUser = async (request: Request, response: Response) => {
@@ -47,5 +47,5 @@ export const loginUser = async (request: Request, response: Response) => {
     expiresIn: 100 * 60 * 60,
   });
 
-  response.json({ user, accessToken, refreshToken });
+  response.json({ id: user.id, accessToken, refreshToken });
 };
