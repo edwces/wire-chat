@@ -22,6 +22,9 @@ export class User extends CustomBaseEntity {
   @Property()
   password!: string;
 
+  @Property({ nullable: true })
+  avatar?: string;
+
   @OneToMany(() => Participant, (participant) => participant.user)
   participants = new Collection<Participant>(this);
 }

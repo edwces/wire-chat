@@ -20,7 +20,7 @@ export const registerUser = async (request: Request, response: Response) => {
   });
   await request.em.persistAndFlush(newUser);
 
-  response.status(201);
+  response.sendStatus(201);
 };
 
 export const loginUser = async (request: Request, response: Response) => {
@@ -28,11 +28,12 @@ export const loginUser = async (request: Request, response: Response) => {
 
   // check if user with the email was found
   const user = await request.em.findOne(User, { email });
-  if (!user) return response.status(401);
+  console.log(user);
+  if (!user) return response.sendStatus(401);
 
   // check if password is correct
   const isValid = argon2.verify(user.password, password);
-  if (!isValid) return response.status(401);
+  if (!isValid) return response.sendStatus(401);
 
   const userDetails = {
     email: user.email,
