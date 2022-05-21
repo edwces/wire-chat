@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { RegisterForm } from "../../modules/auth";
-import { AuthLayout } from "../../modules/layout/AuthLayout";
+import { AuthLayout } from "../../modules/layout";
 import { register } from "../../services";
 import { RegisterFields } from "../../types/interfaces";
 

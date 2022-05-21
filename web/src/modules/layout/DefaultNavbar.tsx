@@ -1,12 +1,12 @@
 import { Navbar, Title } from "@mantine/core";
 import { useQuery } from "react-query";
-import { axios } from "../../lib/axios";
+import { getUserConversations } from "../../services";
 import { ConversationSearch, ConversationsList } from "../navigation";
 import { UserProfileButton } from "../navigation/UserProfileButton";
 
 export function DefaultNavbar() {
   const { data } = useQuery(["user", "conversations", 1], () =>
-    axios.get("/user/1/conversations").then((response) => response.data)
+    getUserConversations(1)
   );
 
   return (

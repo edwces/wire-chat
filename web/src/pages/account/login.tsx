@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { LoginForm } from "../../modules/auth";
-import { AuthLayout } from "../../modules/layout/AuthLayout";
+import { AuthLayout } from "../../modules/layout";
 import { login } from "../../services";
 import { useCurrentUser } from "../../stores/useCurrentUser";
 import { LoginFields } from "../../types/interfaces";

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { useQueryClient } from "react-query";
 import { useEffectOnce } from "../../hooks/useEffectOnce";
 import { useConnection } from "../../stores/useConnection";

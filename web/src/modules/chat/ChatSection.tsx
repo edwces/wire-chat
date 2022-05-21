@@ -1,6 +1,6 @@
 import { Divider, Stack } from "@mantine/core";
 import { useQuery } from "react-query";
-import { axios } from "../../lib/axios";
+import { getConversationMessages } from "../../services";
 import { ChatHeader } from "./ChatHeader";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
@@ -11,7 +11,7 @@ interface ChatSectionProps {
 
 export function ChatSection({ id }: ChatSectionProps) {
   const { data } = useQuery(["conversation", "messages", id], () =>
-    axios.get(`/conversation/${id}/messages`).then((response) => response.data)
+    getConversationMessages(1)
   );
 
   return (

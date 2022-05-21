@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { AuthGate } from "../modules/auth/AuthGate";
+import { AuthGate } from "../modules/auth";
 import { AppLayout } from "../modules/layout";
 
 const Home: NextPage = () => {
