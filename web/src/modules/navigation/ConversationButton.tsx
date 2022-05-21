@@ -3,7 +3,8 @@ import { NextLink } from "@mantine/next";
 
 interface ConversationButtonProps {
   name: string;
-  image: string;
+  image?: string | null;
+  isSelected: boolean;
   id: number;
 }
 
@@ -11,19 +12,23 @@ export function ConversationButton({
   name,
   image,
   id,
+  isSelected,
 }: ConversationButtonProps) {
   return (
     <UnstyledButton
+      p="xs"
       component={NextLink}
       href="/chat/1/bob-telly"
       sx={(theme) => ({
-        "&:hover": {
+        borderRadius: "10px",
+        backgroundColor: isSelected ? theme.colors.blue[0] : "transparent",
+        "&:hover": !isSelected && {
           backgroundColor: theme.colors.gray[1],
         },
       })}
     >
-      <Group spacing={5} p={5}>
-        <Avatar size="lg" src={image} />
+      <Group spacing="md">
+        <Avatar size="lg" src={image} radius="xl" />
         <Text size="lg">{name}</Text>
       </Group>
     </UnstyledButton>

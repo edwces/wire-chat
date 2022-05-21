@@ -2,7 +2,7 @@ import { Avatar, Group, UnstyledButton, Text } from "@mantine/core";
 
 interface UserProfileButtonProps {
   name: string;
-  image: string | null;
+  image?: string | null;
 }
 
 export function UserProfileButton({ name, image }: UserProfileButtonProps) {
