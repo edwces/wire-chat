@@ -8,7 +8,7 @@ interface ConversationsListProps {
 
 export function ConversationsList({ data = [] }: ConversationsListProps) {
   return (
-    <Stack spacing={10} mt={20}>
+    <Stack spacing={10}>
       {data.map((conversation) => (
         <ConversationButton
           key={conversation.id}
