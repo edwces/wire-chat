@@ -25,6 +25,6 @@ export class User extends CustomBaseEntity {
   @Property({ nullable: true })
   avatar?: string;
 
-  @ManyToMany(() => Conversation)
+  @ManyToMany(() => Conversation, "participants", { owner: true })
   conversations = new Collection<Conversation>(this);
 }

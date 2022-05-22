@@ -5,7 +5,7 @@ interface ConversationButtonProps {
   name: string;
   image?: string | null;
   isSelected: boolean;
-  id: number;
+  id: string;
 }
 
 export function ConversationButton({
@@ -18,7 +18,7 @@ export function ConversationButton({
     <UnstyledButton
       p="xs"
       component={NextLink}
-      href="/chat/1/bob-telly"
+      href={`/chat/${id}/${name}`}
       sx={(theme) => ({
         borderRadius: "10px",
         backgroundColor: isSelected ? theme.colors.blue[0] : "transparent",
