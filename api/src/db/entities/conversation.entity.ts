@@ -1,14 +1,20 @@
-import { Collection, Entity, OneToMany, PrimaryKey } from "@mikro-orm/core";
+import {
+  Collection,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryKey,
+} from "@mikro-orm/core";
 import { Message } from "./message.entity";
-import { Participant } from "./participant.entity";
+import { User } from "./user.entity";
 
 @Entity()
 export class Conversation {
   @PrimaryKey()
   id!: number;
 
-  @OneToMany(() => Participant, (participant) => participant.conversation)
-  participants = new Collection<Participant>(this);
+  @ManyToMany(() => User, (participant) => participant.conversations)
+  participants = new Collection<User>(this);
 
   @OneToMany(() => Message, (message) => message.conversation)
   messages = new Collection<Message>(this);

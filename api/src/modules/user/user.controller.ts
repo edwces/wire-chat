@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../../db/entities/user.entity";
 
+// TODO: Use qb
 export const getAllUserConversations = async (
   request: Request,
   response: Response
@@ -8,16 +9,10 @@ export const getAllUserConversations = async (
   const id = Number.parseInt(request.params.id);
 
   const user = await request.em.findOneOrFail(User, id, {
-    populate: [
-      "participants",
-      "participants.conversation",
-      "participants.conversation.messages",
-    ],
+    populate: ["conversations", "conversations.messages"],
   });
 
-  response.json(
-    user?.participants.toArray().map((participant) => participant.conversation)
-  );
+  response.json(user?.conversations);
 };
 
 export const getUserById = async (request: Request, response: Response) => {

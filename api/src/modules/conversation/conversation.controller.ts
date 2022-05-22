@@ -21,10 +21,8 @@ export const getAllParticipants = async (
   const id = Number.parseInt(request.params.id);
 
   const conversation = await request.em.findOne(Conversation, id, {
-    populate: ["participants", "participants.user"],
+    populate: ["participants"],
   });
 
-  response.json(
-    conversation?.participants.toArray().map((participant) => participant.user)
-  );
+  response.json(conversation?.participants);
 };

@@ -1,11 +1,11 @@
 import {
   Collection,
   Entity,
-  OneToMany,
+  ManyToMany,
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { Participant } from "./participant.entity";
+import { Conversation } from "./conversation.entity";
 import { CustomBaseEntity } from "./shared/base.entity";
 
 @Entity()
@@ -25,6 +25,6 @@ export class User extends CustomBaseEntity {
   @Property({ nullable: true })
   avatar?: string;
 
-  @OneToMany(() => Participant, (participant) => participant.user)
-  participants = new Collection<Participant>(this);
+  @ManyToMany(() => Conversation)
+  conversations = new Collection<Conversation>(this);
 }

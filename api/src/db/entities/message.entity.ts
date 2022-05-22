@@ -1,14 +1,14 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
 import { Conversation } from "./conversation.entity";
-import { Participant } from "./participant.entity";
+import { User } from "./user.entity";
 
 @Entity()
 export class Message {
   @PrimaryKey()
   id!: number;
 
-  @ManyToOne(() => Participant)
-  participant!: Participant;
+  @ManyToOne(() => User)
+  participant!: User;
 
   @ManyToOne(() => Conversation)
   conversation!: Conversation;
