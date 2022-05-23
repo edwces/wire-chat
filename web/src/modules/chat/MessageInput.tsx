@@ -2,7 +2,7 @@ import { Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { useConnection } from "../../stores/useConnection";
-import { useCurrentUser } from "../../stores/useCurrentUser";
+import { useAuthStatus } from "../../stores/useAuthStatus";
 
 export function MessageInput() {
   const form = useForm({
@@ -12,7 +12,7 @@ export function MessageInput() {
   });
   const connection = useConnection((state) => state.connection);
   const router = useRouter();
-  const userId = useCurrentUser((state) => state.id);
+  const userId = useAuthStatus((state) => state.id);
 
   return (
     <form

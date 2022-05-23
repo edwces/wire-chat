@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
-import { useCurrentUser } from "../../stores/useCurrentUser";
+import { useAuthStatus } from "../../stores/useAuthStatus";
 
 interface AuthGateProps {
   children: ReactNode;
@@ -8,7 +8,7 @@ interface AuthGateProps {
 
 export function AuthGate({ children }: AuthGateProps) {
   const router = useRouter();
-  const status = useCurrentUser((state) => state.status);
+  const status = useAuthStatus((state) => state.status);
   useEffect(() => {
     if (status === "loggedOut" || status === "idle")
       router.push("/account/login");

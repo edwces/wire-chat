@@ -6,7 +6,7 @@ import {
   getConversationParticipants,
 } from "../../services";
 import { useConnection } from "../../stores/useConnection";
-import { useCurrentUser } from "../../stores/useCurrentUser";
+import { useAuthStatus, useCurrentUser } from "../../stores/useAuthStatus";
 import { User } from "../../types/interfaces";
 import { ChatHeader } from "./ChatHeader";
 import { MessageInput } from "./MessageInput";
@@ -24,7 +24,7 @@ export function ChatSection({ id }: ChatSectionProps) {
     getConversationParticipants(id)
   );
   const connection = useConnection((state) => state.connection);
-  const userId = useCurrentUser((state) => state.id);
+  const userId = useAuthStatus((state) => state.id);
   const idDeps = id.toString();
 
   const getReceiver = (participants: User[]) => {

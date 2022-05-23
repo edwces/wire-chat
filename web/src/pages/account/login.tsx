@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import { LoginForm } from "../../modules/auth";
 import { AuthLayout } from "../../modules/layout";
 import { login } from "../../services";
-import { useCurrentUser } from "../../stores/useCurrentUser";
+import { useAuthStatus } from "../../stores/useAuthStatus";
 import { LoginFields } from "../../types/interfaces";
 
 const Login: NextPage = () => {
   const router = useRouter();
-  const { setLoggedIn } = useCurrentUser();
+  const { setLoggedIn } = useAuthStatus();
 
   const callLogin = async (values: LoginFields) => {
     const data = await login(values);

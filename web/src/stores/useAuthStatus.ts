@@ -1,18 +1,18 @@
 import create from "zustand";
 
-interface CurrentUserState {
+interface AuthStatusState {
   id: number | null;
   status: "loggedIn" | "loggedOut" | "idle";
 }
 
-interface CurrentUserActions {
+interface AuthStatusActions {
   setLoggedIn: (id: number) => void;
   setLoggedOut: () => void;
 }
 
-type CurrentUserStore = CurrentUserState & CurrentUserActions;
+type AuthStatusStore = AuthStatusState & AuthStatusActions;
 
-export const useCurrentUser = create<CurrentUserStore>((set) => ({
+export const useAuthStatus = create<AuthStatusStore>((set) => ({
   id: null,
   status: "idle",
   setLoggedIn: (id) => set({ status: "loggedIn", id }),

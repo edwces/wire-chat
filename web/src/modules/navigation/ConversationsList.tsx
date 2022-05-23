@@ -1,6 +1,6 @@
 import { Stack } from "@mantine/core";
 import { useRouter } from "next/router";
-import { useCurrentUser } from "../../stores/useCurrentUser";
+import { useAuthStatus } from "../../stores/useAuthStatus";
 import { Conversation } from "../../types/interfaces";
 import { ConversationButton } from "./ConversationButton";
 
@@ -12,7 +12,7 @@ interface ConversationsListProps {
 // TODO: Or Wrap it inside NextLink
 export function ConversationsList({ data = [] }: ConversationsListProps) {
   const router = useRouter();
-  const userId = useCurrentUser((state) => state.id);
+  const userId = useAuthStatus((state) => state.id);
   console.log(userId);
 
   const getReceiver = (conversation: Conversation) => {
