@@ -1,12 +1,17 @@
 import { Avatar, Group, Text } from "@mantine/core";
 
-export function ChatHeader() {
+interface ChatHeaderProps {
+  name: string;
+  image?: string | null;
+}
+
+export function ChatHeader({ name, image }: ChatHeaderProps) {
   return (
     <header>
       <Group>
-        <Avatar radius="xl" size="lg" />
+        <Avatar radius="xl" size="lg" src={image} />
         <Text size="lg" weight={400}>
-          Bob Bobby
+          {name}
         </Text>
       </Group>
     </header>

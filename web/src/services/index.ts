@@ -1,3 +1,6 @@
 export { login, register } from "./authService";
-export { getConversationMessages } from "./conversationService";
+export {
+  getConversationMessages,
+  getConversationParticipants,
+} from "./conversationService";
 export { getUserConversations, getUser } from "./userService";
