@@ -1,9 +1,17 @@
-import { Navbar, ScrollArea, Stack, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Group,
+  Navbar,
+  ScrollArea,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { useQuery } from "react-query";
 import { getUser, getUserConversations } from "../../services";
 import { useCurrentUser } from "../../stores/useCurrentUser";
 import { ConversationSearch, ConversationsList } from "../navigation";
 import { UserProfileButton } from "../navigation/UserProfileButton";
+import { UserPlus } from "tabler-icons-react";
 
 export function DefaultNavbar() {
   const userId = useCurrentUser((state) => state.id);
@@ -22,7 +30,12 @@ export function DefaultNavbar() {
           paddingBottom: theme.spacing.md,
         })}
       >
-        <Title>Wire</Title>
+        <Group position="apart">
+          <Title>Wire</Title>
+          <ActionIcon radius="xl" variant="default" size={45}>
+            <UserPlus size={28} />
+          </ActionIcon>
+        </Group>
       </Navbar.Section>
       <Navbar.Section
         grow
