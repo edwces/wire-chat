@@ -8,7 +8,7 @@ export const getAllConversationMessages = async (
   const id = Number.parseInt(request.params.id);
 
   const conversation = await request.em.findOne(Conversation, id, {
-    populate: ["messages"],
+    populate: ["messages", "messages.participant"],
   });
 
   response.json(conversation?.messages);

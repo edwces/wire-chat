@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { getConversationMessages } from "../../services";
 import { useConnection } from "../../stores/useConnection";
+import { useCurrentUser } from "../../stores/useCurrentUser";
 import { ChatHeader } from "./ChatHeader";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
@@ -16,6 +17,7 @@ export function ChatSection({ id }: ChatSectionProps) {
     getConversationMessages(id)
   );
   const connection = useConnection((state) => state.connection);
+  const userId = useCurrentUser((state) => state.id);
   const idDeps = id.toString();
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export function ChatSection({ id }: ChatSectionProps) {
       <Stack sx={{ height: "95vh" }}>
         <ChatHeader />
         <Divider mb={10} />
-        <MessageList data={data} />
+        <MessageList data={data} id={userId} />
         <Divider mt={10} />
         <MessageInput />
       </Stack>
