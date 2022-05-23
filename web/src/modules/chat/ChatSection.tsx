@@ -11,6 +11,7 @@ import { User } from "../../types/interfaces";
 import { ChatHeader } from "./ChatHeader";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
+import { useChatRoom } from "./useChatRoom";
 
 interface ChatSectionProps {
   id: number;
@@ -23,23 +24,11 @@ export function ChatSection({ id }: ChatSectionProps) {
   const participants = useQuery(["conversation", "participants", id], () =>
     getConversationParticipants(id)
   );
-  const connection = useConnection((state) => state.connection);
   const userId = useAuthStatus((state) => state.id);
-  const idDeps = id.toString();
-
+  useChatRoom(id);
   const getReceiver = (participants: User[]) => {
     return participants.find((participant) => participant.id !== userId);
   };
-
-  useEffect(() => {
-    connection?.send(JSON.stringify({ type: "JOIN_ROOM", data: { id } }));
-
-    return () => {
-      console.log("cleanup run");
-
-      connection?.send(JSON.stringify({ type: "LEAVE_ROOM", data: { id } }));
-    };
-  }, [idDeps]);
 
   if (!data || !participants.data) return <div>Loading</div>;
 
