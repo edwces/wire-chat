@@ -1,4 +1,4 @@
-import { Navbar, Stack, Title } from "@mantine/core";
+import { Navbar, ScrollArea, Stack, Title } from "@mantine/core";
 import { useQuery } from "react-query";
 import { getUser, getUserConversations } from "../../services";
 import { useCurrentUser } from "../../stores/useCurrentUser";
@@ -33,7 +33,9 @@ export function DefaultNavbar() {
       >
         <Stack spacing="xl">
           <ConversationSearch />
-          <ConversationsList data={data} />
+          <ScrollArea>
+            <ConversationsList data={data} />
+          </ScrollArea>
         </Stack>
       </Navbar.Section>
       <Navbar.Section

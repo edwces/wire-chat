@@ -1,4 +1,4 @@
-import { Divider, Stack } from "@mantine/core";
+import { Divider, ScrollArea, Stack } from "@mantine/core";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { getConversationMessages } from "../../services";
@@ -35,7 +35,9 @@ export function ChatSection({ id }: ChatSectionProps) {
       <Stack sx={{ height: "95vh" }}>
         <ChatHeader />
         <Divider mb={10} />
-        <MessageList data={data} id={userId} />
+        <ScrollArea type="scroll" sx={{ flexGrow: 1, paddingRight: 24 }}>
+          <MessageList data={data} id={userId} />
+        </ScrollArea>
         <Divider mt={10} />
         <MessageInput />
       </Stack>
