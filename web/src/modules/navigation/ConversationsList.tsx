@@ -13,6 +13,7 @@ interface ConversationsListProps {
 export function ConversationsList({ data = [] }: ConversationsListProps) {
   const router = useRouter();
   const userId = useCurrentUser((state) => state.id);
+  console.log(userId);
 
   const getReceiver = (conversation: Conversation) => {
     return conversation.participants.find(

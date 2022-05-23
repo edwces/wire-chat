@@ -1,14 +1,16 @@
 import { Navbar, Stack, Title } from "@mantine/core";
 import { useQuery } from "react-query";
 import { getUser, getUserConversations } from "../../services";
+import { useCurrentUser } from "../../stores/useCurrentUser";
 import { ConversationSearch, ConversationsList } from "../navigation";
 import { UserProfileButton } from "../navigation/UserProfileButton";
 
 export function DefaultNavbar() {
-  const { data } = useQuery(["user", "conversations", 1], () =>
-    getUserConversations(1)
+  const userId = useCurrentUser((state) => state.id);
+  const { data } = useQuery(["user", "conversations", userId], () =>
+    getUserConversations(userId!)
   );
-  const user = useQuery(["user", 1], () => getUser(1));
+  const user = useQuery(["user", userId], () => getUser(userId!));
 
   if (!user.data) return <div>Loading</div>;
 
