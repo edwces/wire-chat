@@ -1,0 +1,1 @@
+export { AppMetadata } from "./AppMetadata";

@@ -5,17 +5,21 @@ import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { queryClient } from "../lib/react-query";
 import { WebSocketProvider } from "../modules/websocket/WebSocketProvider";
+import { AppMetadata } from "../modules/meta";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <MantineProvider withNormalizeCSS withGlobalStyles>
-        <WebSocketProvider>
-          <Component {...pageProps} />
-        </WebSocketProvider>
-      </MantineProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <>
+      <AppMetadata />
+      <QueryClientProvider client={queryClient}>
+        <MantineProvider withNormalizeCSS withGlobalStyles>
+          <WebSocketProvider>
+            <Component {...pageProps} />
+          </WebSocketProvider>
+        </MantineProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </>
   );
 }
 
