@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Conversation } from "../../db/entities/conversation.entity";
+import { User } from "../../db/entities/user.entity";
 
 export const getAllConversationMessages = async (
   request: Request,
@@ -25,4 +26,20 @@ export const getAllParticipants = async (
   });
 
   response.json(conversation?.participants);
+};
+
+export const createNewConversation = async (
+  request: Request,
+  response: Response
+) => {
+  const { participants } = request.body;
+
+  const conversation = new Conversation();
+  const references = (ids: number[]) =>
+    ids.map((id) => request.em.getReference(User, id));
+  conversation.participants.add(...references(participants));
+
+  await request.em.persistAndFlush(conversation);
+
+  response.json(conversation);
 };

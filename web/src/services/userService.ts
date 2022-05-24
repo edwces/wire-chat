@@ -10,3 +10,7 @@ export function getUserConversations(id: number): Promise<Conversation[]> {
 export function getUser(id: number): Promise<User> {
   return axios.get(`/user/${id}`).then((response) => response.data);
 }
+
+export function getAllUsers(): Promise<User[]> {
+  return axios.get(`/user/`).then((response) => response.data);
+}

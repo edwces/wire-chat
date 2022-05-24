@@ -26,3 +26,9 @@ export const getUserById = async (request: Request, response: Response) => {
 
   response.json(user);
 };
+
+export const getAllUsers = async (request: Request, response: Response) => {
+  const users = await request.em.find(User, {});
+
+  response.json(users);
+};
