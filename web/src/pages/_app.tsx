@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { queryClient } from "../lib/react-query";
 import { WebSocketProvider } from "../modules/websocket/WebSocketProvider";
 import { AppMetadata } from "../modules/meta";
+import { ModalsProvider } from "@mantine/modals";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,9 +14,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AppMetadata />
       <QueryClientProvider client={queryClient}>
         <MantineProvider withNormalizeCSS withGlobalStyles>
-          <WebSocketProvider>
-            <Component {...pageProps} />
-          </WebSocketProvider>
+          <ModalsProvider>
+            <WebSocketProvider>
+              <Component {...pageProps} />
+            </WebSocketProvider>
+          </ModalsProvider>
         </MantineProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
