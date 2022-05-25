@@ -18,26 +18,23 @@ interface ChatSectionProps {
 }
 
 export function ChatSection({ id }: ChatSectionProps) {
+  const userId = useAuthStatus((state) => state.id);
   const { data } = useQuery(["conversation", "messages", id], () =>
     getConversationMessages(id)
   );
-  const participants = useQuery(["conversation", "participants", id], () =>
-    getConversationParticipants(id)
+  const receiver = useQuery(
+    ["conversation", "participants", id],
+    () => getConversationParticipants(id),
+    { select: (data) => data.find((participant) => participant.id !== userId) }
   );
-  const userId = useAuthStatus((state) => state.id);
   useChatRoom(id);
-  const getReceiver = (participants: User[]) => {
-    return participants.find((participant) => participant.id !== userId);
-  };
 
-  if (!data || !participants.data) return <div>Loading</div>;
-
-  const receiver = getReceiver(participants.data);
+  if (!data || !receiver.data) return <div>Loading</div>;
 
   return (
     <section>
       <Stack sx={{ height: "95vh" }}>
-        <ChatHeader name={receiver!.name} image={receiver?.avatar} />
+        <ChatHeader name={receiver.data.name} image={receiver.data.avatar} />
         <Divider mb={10} />
         <ScrollArea type="scroll" sx={{ flexGrow: 1, paddingRight: 24 }}>
           <MessageList data={data} id={userId} />
