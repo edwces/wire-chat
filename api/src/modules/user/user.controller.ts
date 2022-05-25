@@ -28,7 +28,19 @@ export const getUserById = async (request: Request, response: Response) => {
 };
 
 export const getAllUsers = async (request: Request, response: Response) => {
-  const users = await request.em.find(User, {});
+  const { offset, limit } = request.query;
+  const qb = request.em.createQueryBuilder(User);
+  qb.select("*");
+
+  if (offset) {
+    qb.offset(Number.parseInt(offset as string));
+  }
+
+  if (limit) {
+    qb.limit(Number.parseInt(limit as string));
+  }
+
+  const users = await qb.getResult();
 
   response.json(users);
 };

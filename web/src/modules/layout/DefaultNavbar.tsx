@@ -15,11 +15,21 @@ import { UserProfileButton } from "../navigation/UserProfileButton";
 import { UserPlus } from "tabler-icons-react";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useAuthStatus } from "../../stores/useAuthStatus";
+import { useModals } from "@mantine/modals";
 
 export function DefaultNavbar() {
   const id = useAuthStatus((state) => state.id);
   const user = useCurrentUser();
   const { data } = useUserConversations(id!);
+  const modal = useModals();
+
+  const openAddFriendsModal = () => {
+    modal.openContextModal("addFriendsModal", {
+      title: "Create COnversation",
+      centered: true,
+      innerProps: {},
+    });
+  };
 
   if (!user.data) return <div>Loading</div>;
 
@@ -33,7 +43,12 @@ export function DefaultNavbar() {
       >
         <Group position="apart">
           <Title>Wire</Title>
-          <ActionIcon radius="xl" variant="default" size={45}>
+          <ActionIcon
+            radius="xl"
+            variant="default"
+            size={45}
+            onClick={openAddFriendsModal}
+          >
             <UserPlus size={28} />
           </ActionIcon>
         </Group>
