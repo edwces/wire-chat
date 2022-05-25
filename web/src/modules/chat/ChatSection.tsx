@@ -1,35 +1,23 @@
 import { Divider, ScrollArea, Stack } from "@mantine/core";
-import { useEffect } from "react";
-import { useQuery } from "react-query";
-import {
-  getConversationMessages,
-  getConversationParticipants,
-} from "../../services";
-import { useConnection } from "../../stores/useConnection";
-import { useAuthStatus, useCurrentUser } from "../../stores/useAuthStatus";
-import { User } from "../../types/interfaces";
+import { useAuthStatus } from "../../stores/useAuthStatus";
 import { ChatHeader } from "./ChatHeader";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 import { useChatRoom } from "./useChatRoom";
+import { useConversationReceivers } from "./useConversationReceivers";
+import { useConversationMessages } from "./useConversationMessages";
 
 interface ChatSectionProps {
   id: number;
 }
 
 export function ChatSection({ id }: ChatSectionProps) {
-  const userId = useAuthStatus((state) => state.id);
-  const { data } = useQuery(["conversation", "messages", id], () =>
-    getConversationMessages(id)
-  );
-  const receiver = useQuery(
-    ["conversation", "participants", id],
-    () => getConversationParticipants(id),
-    { select: (data) => data.find((participant) => participant.id !== userId) }
-  );
   useChatRoom(id);
+  const userId = useAuthStatus((state) => state.id);
+  const messages = useConversationMessages(id);
+  const receiver = useConversationReceivers(id);
 
-  if (!data || !receiver.data) return <div>Loading</div>;
+  if (!messages.data || !receiver.data) return <div>Loading</div>;
 
   return (
     <section>
@@ -37,7 +25,7 @@ export function ChatSection({ id }: ChatSectionProps) {
         <ChatHeader name={receiver.data.name} image={receiver.data.avatar} />
         <Divider mb={10} />
         <ScrollArea type="scroll" sx={{ flexGrow: 1, paddingRight: 24 }}>
-          <MessageList data={data} id={userId} />
+          <MessageList data={messages.data} id={userId!} />
         </ScrollArea>
         <Divider mt={10} />
         <MessageInput />

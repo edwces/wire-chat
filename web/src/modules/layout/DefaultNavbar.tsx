@@ -6,9 +6,11 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import { useQuery } from "react-query";
-import { getUserConversations } from "../../services";
-import { ConversationSearch, ConversationsList } from "../navigation";
+import {
+  ConversationSearch,
+  ConversationsList,
+  useUserConversations,
+} from "../navigation";
 import { UserProfileButton } from "../navigation/UserProfileButton";
 import { UserPlus } from "tabler-icons-react";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
@@ -17,9 +19,7 @@ import { useAuthStatus } from "../../stores/useAuthStatus";
 export function DefaultNavbar() {
   const id = useAuthStatus((state) => state.id);
   const user = useCurrentUser();
-  const { data } = useQuery(["user", "conversations", id], () =>
-    getUserConversations(id!)
-  );
+  const { data } = useUserConversations(id!);
 
   if (!user.data) return <div>Loading</div>;
 
