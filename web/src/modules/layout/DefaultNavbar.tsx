@@ -73,7 +73,10 @@ export function DefaultNavbar() {
           paddingTop: theme.spacing.sm,
         })}
       >
-        <UserProfileButton name={user.data?.name} image={user.data?.avatar} />
+        <UserProfileButton
+          name={user.data?.name}
+          image={`http://localhost:3001/image/${user.data?.avatar}`}
+        />
       </Navbar.Section>
     </Navbar>
   );

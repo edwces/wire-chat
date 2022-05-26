@@ -28,7 +28,7 @@ export function ConversationsList({ data = [] }: ConversationsListProps) {
           <ConversationButton
             key={conversation.id}
             id={conversation.id}
-            image={receiver!.avatar}
+            image={`http://localhost:3001/image/${receiver!.avatar}`}
             name={receiver!.name}
             isSelected={router.query.id == conversation.id}
           />

@@ -10,17 +10,18 @@ import http from "node:http";
 import { wsHandle } from "./websocket";
 import { authRouter } from "./modules/auth";
 import bodyParser from "body-parser";
+import path from "node:path";
 
 export async function bootstrap() {
   const app = express();
   const orm = await MikroORM.init(mikroOrmConfig);
 
   app.use(cors({ origin: "*" }));
-  app.use(express.static("../public"));
+  app.use(express.static(path.resolve(__dirname, "../public")));
   app.use(bodyParser.json());
   app.use((request, _, next) => {
     RequestContext.create(orm.em, () => {
-      request.em = orm.em as EntityManager;
+      request.em = orm.em.fork() as EntityManager;
       next();
     });
   });

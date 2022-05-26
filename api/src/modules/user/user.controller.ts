@@ -64,6 +64,7 @@ export const uploadAvatarImage = async (
 
   const user = await request.em.findOne(User, id);
   wrap(user).assign({ avatar: `${pictureUuid}.jpeg` });
+  await request.em.flush();
 
   response.json(user);
 };

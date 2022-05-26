@@ -14,7 +14,7 @@ interface ChatSectionProps {
 
 export function ChatSection({ id }: ChatSectionProps) {
   useChatRoom(id);
-  const viewport = useRef<HTMLDivElement>();
+  const viewport = useRef<HTMLDivElement>(null);
   const userId = useAuthStatus((state) => state.id);
   const messages = useConversationMessages(id); // on new data: scroll to the bottom if user scrollbar is at the bottom
   const receiver = useConversationReceivers(id);
@@ -31,7 +31,10 @@ export function ChatSection({ id }: ChatSectionProps) {
   return (
     <section>
       <Stack sx={{ height: "95vh" }}>
-        <ChatHeader name={receiver.data.name} image={receiver.data.avatar} />
+        <ChatHeader
+          name={receiver.data.name}
+          image={`http://localhost:3001/image/${receiver.data.avatar}`}
+        />
         <Divider mb={10} />
         <ScrollArea
           type="scroll"

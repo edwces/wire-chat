@@ -4,4 +4,9 @@ export {
   getConversationParticipants,
   createConversation,
 } from "./conversationService";
-export { getUserConversations, getUser, getAllUsers } from "./userService";
+export {
+  getUserConversations,
+  getUser,
+  getAllUsers,
+  uploadAvatarImage,
+} from "./userService";

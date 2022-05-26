@@ -7,7 +7,7 @@ import { queryClient } from "../lib/react-query";
 import { WebSocketProvider } from "../modules/websocket/WebSocketProvider";
 import { AppMetadata } from "../modules/meta";
 import { ModalsProvider } from "@mantine/modals";
-import { AddFriendsModal } from "../modules/modals";
+import { AddFriendsModal, UserSettingsModal } from "../modules/modals";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -15,7 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AppMetadata />
       <QueryClientProvider client={queryClient}>
         <MantineProvider withNormalizeCSS withGlobalStyles>
-          <ModalsProvider modals={{ addFriendsModal: AddFriendsModal }}>
+          <ModalsProvider
+            modals={{
+              addFriendsModal: AddFriendsModal,
+              userSettingsModal: UserSettingsModal,
+            }}
+          >
             <WebSocketProvider>
               <Component {...pageProps} />
             </WebSocketProvider>

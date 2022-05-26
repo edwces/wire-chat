@@ -1,4 +1,6 @@
-import { Avatar, Group, UnstyledButton, Text } from "@mantine/core";
+import { Avatar, Group, UnstyledButton, Text, ActionIcon } from "@mantine/core";
+import { useModals } from "@mantine/modals";
+import { DotsVertical } from "tabler-icons-react";
 
 interface UserProfileButtonProps {
   name: string;
@@ -11,6 +13,16 @@ export function UserProfileButton({
   image,
   onClick,
 }: UserProfileButtonProps) {
+  const modal = useModals();
+
+  const openUserSettingsModal = () => {
+    modal.openContextModal("userSettingsModal", {
+      title: "User settings",
+      centered: true,
+      innerProps: {},
+    });
+  };
+
   return (
     <UnstyledButton
       p="sm"
@@ -18,13 +30,17 @@ export function UserProfileButton({
         display: "block",
         width: "100%",
         borderRadius: "10px",
-        "&:hover": { backgroundColor: theme.colors.gray[1] },
       })}
       onClick={onClick}
     >
-      <Group spacing="md">
-        <Avatar src={image} radius="xl" size="lg" />
-        <Text>{name}</Text>
+      <Group position="apart">
+        <Group spacing="md">
+          <Avatar src={image} radius="xl" size="lg" />
+          <Text>{name}</Text>
+        </Group>
+        <ActionIcon onClick={openUserSettingsModal} size={28} radius="xl">
+          <DotsVertical />
+        </ActionIcon>
       </Group>
     </UnstyledButton>
   );
