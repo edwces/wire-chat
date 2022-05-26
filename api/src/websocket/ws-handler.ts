@@ -4,27 +4,60 @@ import { Message } from "../db/entities/message.entity";
 import { WebSocketMessage } from "../types/interfaces/websocket-message";
 import { v4 } from "uuid";
 
-const rooms: { [key: string]: { [key: string]: WebSocket } } = {};
+type Room = Set<string>;
 
+class WebSocketHandler {
+  rooms: Map<number, Room>;
+  connections: Map<string, WebSocket>;
+
+  constructor() {
+    this.rooms = new Map();
+    this.connections = new Map();
+  }
+
+  broadcast(id: number, data: any) {
+    for (const socketId of this.rooms.get(id)!) {
+      this.connections.get(socketId)?.send(JSON.stringify(data));
+    }
+  }
+
+  leave(id: number, socketId: string) {
+    if (!this.rooms.get(id)) return null;
+    if (this.rooms.get(id)?.size === 1) this.rooms.delete(id);
+
+    this.rooms.get(id)?.delete(socketId);
+  }
+
+  join(id: number, socketId: string, connection: WebSocket) {
+    if (!(id in this.rooms)) {
+      this.rooms.set(id, new Set());
+    }
+    if (socketId in this.rooms.get(id)!) return true;
+
+    this.rooms.get(id)?.add(socketId);
+
+    if (socketId in this.connections) return true;
+
+    this.connections.set(socketId, connection);
+  }
+
+  close(socketId: string) {
+    for (const [id, _] of this.rooms) {
+      this.leave(id, socketId);
+    }
+    this.connections.delete(socketId);
+  }
+}
+
+const webSocketHandler = new WebSocketHandler();
 export const wsHandle = (orm: MikroORM) => (connection: WebSocket) => {
   const sockUuid = v4();
 
-  const leave = (roomId: string) => {
-    if (roomId in rooms) {
-      if (Object.keys(rooms[roomId]).length === 1) delete rooms[roomId];
-      else delete rooms[roomId][sockUuid];
-    }
-  };
-
-  const broadcast = (roomId: string, event: string) => {
-    Object.values(rooms[roomId]).forEach((socket) => socket.send(event));
-  };
   connection.on("message", async (raw) => {
     // create new em context
     const em = orm.em.fork();
 
     // parse data
-
     const event: WebSocketMessage = JSON.parse(raw.toString("utf8"));
 
     // handle different types
@@ -39,27 +72,21 @@ export const wsHandle = (orm: MikroORM) => (connection: WebSocket) => {
       await em.persistAndFlush(message);
 
       // invalidate data on client
-      broadcast(
-        conversation,
-        JSON.stringify({
-          type: "INVALIDATE_DATA",
-          data: { entity: ["conversation", "messages"] },
-        })
-      );
+      webSocketHandler.broadcast(Number.parseInt(conversation), {
+        type: "INVALIDATE_DATA",
+        data: { entity: ["conversation", "messages"] },
+      });
     } else if (event.type === "JOIN_ROOM") {
-      const roomId = event.data.id as string;
+      const roomId = Number.parseInt(event.data.id);
 
-      if (!(roomId in rooms)) {
-        rooms[roomId] = {};
-      }
-      if (!(sockUuid in rooms[roomId])) rooms[roomId][sockUuid] = connection;
+      webSocketHandler.join(roomId, sockUuid, connection);
     } else if (event.type === "LEAVE_ROOM") {
-      const roomId = event.data.id as string;
-      leave(roomId);
+      const roomId = Number.parseInt(event.data.id);
+      webSocketHandler.leave(roomId, sockUuid);
     }
   });
 
   connection.on("close", (event) => {
-    Object.keys(rooms).forEach((roomId) => leave(roomId));
+    webSocketHandler.close(sockUuid);
   });
 };
