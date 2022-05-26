@@ -16,6 +16,7 @@ export async function bootstrap() {
   const orm = await MikroORM.init(mikroOrmConfig);
 
   app.use(cors({ origin: "*" }));
+  app.use(express.static("../public"));
   app.use(bodyParser.json());
   app.use((request, _, next) => {
     RequestContext.create(orm.em, () => {
