@@ -18,7 +18,7 @@ export function UserSettingsModal({
       uploadAvatarImage(params.id, params.formData),
     {
       onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["user", variables.id]);
+        queryClient.invalidateQueries(["user"]);
       },
     }
   );

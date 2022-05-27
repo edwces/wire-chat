@@ -19,7 +19,5 @@ export function uploadAvatarImage(id: number, data: FormData) {
   return fetch(`http://localhost:3001/user/${id}/avatar`, {
     method: "POST",
     body: data,
-  })
-    .then((response) => response.json())
-    .then((response) => JSON.parse(response));
+  }).then((response) => response.json());
 }
