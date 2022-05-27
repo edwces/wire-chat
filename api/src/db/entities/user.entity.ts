@@ -22,7 +22,7 @@ export class User extends CustomBaseEntity {
   @Property()
   password!: string;
 
-  @Property({ nullable: true, default: "default-avatar.jpg" })
+  @Property({ default: "default-avatar.jpg" })
   avatar?: string;
 
   @ManyToMany(() => Conversation, "participants", { owner: true })

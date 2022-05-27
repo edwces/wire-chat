@@ -4,6 +4,7 @@ import sharp from "sharp";
 import { wrap } from "@mikro-orm/core";
 import { v4 } from "uuid";
 import path from "node:path";
+import fs from "node:fs";
 
 // TODO: Use qb
 export const getAllUserConversations = async (
@@ -55,6 +56,8 @@ export const uploadAvatarImage = async (
 ) => {
   const id = Number.parseInt(request.params.id);
   const pictureUuid = v4();
+  const user = await request.em.findOne(User, id);
+
   await sharp(request.file?.buffer)
     .resize(100, 100)
     .jpeg({ quality: 50 })
@@ -62,7 +65,11 @@ export const uploadAvatarImage = async (
       path.resolve(__dirname, `../../../public/image/${pictureUuid}.jpeg`)
     );
 
-  const user = await request.em.findOne(User, id);
+  if (user!.avatar !== "default-avatar.jpg") {
+    await fs.promises.unlink(
+      path.resolve(__dirname, `../../../public/image/${user!.avatar}`)
+    );
+  }
   wrap(user).assign({ avatar: `${pictureUuid}.jpeg` });
   await request.em.flush();
 
