@@ -1,5 +1,5 @@
 import { axios } from "../lib/axios";
-import { Conversation, Message } from "../types/interfaces";
+import { Conversation, Message, User } from "../types/interfaces";
 
 export function getConversationMessages(id: number): Promise<Message[]> {
   return axios
