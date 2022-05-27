@@ -52,6 +52,17 @@ class WebSocketHandler {
 const webSocketHandler = new WebSocketHandler();
 export const wsHandle = (orm: MikroORM) => (connection: WebSocket) => {
   const sockUuid = v4();
+  let isAlive = true;
+  connection.on("pong", () => {
+    isAlive = true;
+  });
+
+  const heartbeat = () => {
+    if (!isAlive) connection.terminate();
+    connection.ping();
+    isAlive = false;
+  };
+  const heartbeatId = setInterval(heartbeat, 20_000);
 
   connection.on("message", async (raw) => {
     // create new em context
@@ -88,5 +99,6 @@ export const wsHandle = (orm: MikroORM) => (connection: WebSocket) => {
 
   connection.on("close", (event) => {
     webSocketHandler.close(sockUuid);
+    clearInterval(heartbeatId);
   });
 };
