@@ -46,12 +46,6 @@ export function AddFriendsModal({
 
   if (!data || !friends.data) return <div>Loading</div>;
 
-  console.log("Friends", friends.data);
-  console.log("Not Friends", [
-    ...friends.data.map((friend: User) => friend.id),
-    currentId,
-  ]);
-
   return (
     <Stack spacing="md">
       {data.map((user) => (

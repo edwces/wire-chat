@@ -11,7 +11,6 @@ const Register: NextPage = () => {
 
   const callRegister = async (values: RegisterFields) => {
     const data = await register(values);
-    console.log(data);
     router.push("/account/login");
   };
 

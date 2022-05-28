@@ -28,7 +28,6 @@ export const loginUser = async (request: Request, response: Response) => {
 
   // check if user with the email was found
   const user = await request.em.findOne(User, { email });
-  console.log(user);
   if (!user) return response.sendStatus(401);
 
   // check if password is correct

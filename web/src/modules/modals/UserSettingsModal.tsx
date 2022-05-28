@@ -25,7 +25,6 @@ export function UserSettingsModal({
 
   const onFileChange = () => {
     const form = new FormData();
-    console.log(fileInput.current!.files![0]);
 
     form.append("file", fileInput.current!.files![0]);
 

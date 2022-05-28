@@ -16,8 +16,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     refresh(token)
       .then((data) => {
-        console.log(data);
-
         setLoggedIn(Number.parseInt(data.id));
         setAccessToken(data.accessToken);
       })
