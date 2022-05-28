@@ -10,8 +10,7 @@ export function AuthGate({ children }: AuthGateProps) {
   const router = useRouter();
   const status = useAuthStatus((state) => state.status);
   useEffect(() => {
-    if (status === "loggedOut" || status === "idle")
-      router.push("/account/login");
+    if (status === "loggedOut") router.push("/account/login");
   });
 
   if (status === "loggedIn") return <>{children}</>;

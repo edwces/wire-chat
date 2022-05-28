@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { LoginForm } from "../../modules/auth";
 import { AuthLayout } from "../../modules/layout";
-import { login } from "../../services";
+import { login, setAccessToken } from "../../services";
 import { useAuthStatus } from "../../stores/useAuthStatus";
 import { LoginFields } from "../../types/interfaces";
 
@@ -13,7 +13,7 @@ const Login: NextPage = () => {
 
   const callLogin = async (values: LoginFields) => {
     const data = await login(values);
-    localStorage.setItem("access_token", data.accessToken);
+    setAccessToken(data.accessToken);
     setLoggedIn(Number.parseInt(data.id));
     router.push("/");
   };

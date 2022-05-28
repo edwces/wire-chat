@@ -10,3 +10,8 @@ export {
   getAllUsers,
   uploadAvatarImage,
 } from "./userService";
+export {
+  setAccessToken,
+  getAccessToken,
+  createAuthHeader,
+} from "./tokenService";

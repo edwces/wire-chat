@@ -8,6 +8,7 @@ import { WebSocketProvider } from "../modules/websocket/WebSocketProvider";
 import { AppMetadata } from "../modules/meta";
 import { ModalsProvider } from "@mantine/modals";
 import { AddFriendsModal, UserSettingsModal } from "../modules/modals";
+import { AuthProvider } from "../modules/auth/AuthProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,9 +22,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               userSettingsModal: UserSettingsModal,
             }}
           >
-            <WebSocketProvider>
-              <Component {...pageProps} />
-            </WebSocketProvider>
+            <AuthProvider>
+              <WebSocketProvider>
+                <Component {...pageProps} />
+              </WebSocketProvider>
+            </AuthProvider>
           </ModalsProvider>
         </MantineProvider>
         <ReactQueryDevtools initialIsOpen={false} />

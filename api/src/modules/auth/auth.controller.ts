@@ -50,3 +50,12 @@ export const loginUser = async (request: Request, response: Response) => {
 
   response.json({ id: user.id, accessToken, refreshToken });
 };
+
+export const refreshToken = async (request: Request, response: Response) => {
+  const accessToken = jwt.sign(
+    response.locals.user!,
+    environment.jwt.accessSecret
+  );
+
+  response.json({ id: response.locals.user.id, accessToken });
+};
