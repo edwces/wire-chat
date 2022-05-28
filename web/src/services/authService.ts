@@ -19,3 +19,9 @@ export function refresh(token: string): Promise<LoginResponse> {
     .get("/auth/refresh", { headers: createAuthHeader(token) })
     .then((response) => response.data);
 }
+
+export function getTicket(token: string): Promise<{ ticket: string }> {
+  return axios
+    .get("/auth/ticket", { headers: createAuthHeader(token) })
+    .then((response) => response.data);
+}

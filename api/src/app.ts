@@ -11,6 +11,7 @@ import { wsHandle } from "./websocket";
 import { authRouter } from "./modules/auth";
 import bodyParser from "body-parser";
 import path from "node:path";
+import redis from "./redis";
 
 export async function bootstrap() {
   const app = express();
@@ -31,9 +32,28 @@ export async function bootstrap() {
   app.use("/auth", authRouter);
 
   const server = http.createServer(app);
-  const wss = new webSocket.Server({ server });
+  const wss = new webSocket.Server({ noServer: true });
 
   wss.on("connection", wsHandle(orm));
+  server.on("upgrade", (request, socket, head) => {
+    const url = new URL(request.url!, `http://${request.headers.host}`);
+    const ticket = url.searchParams.get("ticket");
+    if (!ticket) {
+      socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+      socket.destroy();
+      return;
+    }
+    const userId = redis.get(ticket!);
+    if (!userId) {
+      socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+      socket.destroy();
+      return;
+    }
+
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit("connection", ws, request);
+    });
+  });
 
   server.listen(3001, () => {
     console.log("Server started at http://localhost:3001");
