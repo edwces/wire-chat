@@ -22,6 +22,6 @@ export default {
     path: "dist/db/seeder",
   },
   driverOptions: {
-    connection: { ssl: true },
+    connection: { ssl: { rejectUnauthorized: false } },
   },
 } as Options;
