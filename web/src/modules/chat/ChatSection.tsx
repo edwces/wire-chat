@@ -33,7 +33,7 @@ export function ChatSection({ id }: ChatSectionProps) {
       <Stack sx={{ height: "95vh" }}>
         <ChatHeader
           name={receiver.data.name}
-          image={`http://localhost:3001/image/${receiver.data.avatar}`}
+          image={`${process.env.NEXT_API_URL}/image/${receiver.data.avatar}`}
         />
         <Divider mb={10} />
         <ScrollArea

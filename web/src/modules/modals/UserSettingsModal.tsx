@@ -38,7 +38,7 @@ export function UserSettingsModal({
       <Avatar
         radius="xl"
         size="xl"
-        src={`http://localhost:3001/image/${data.avatar}`}
+        src={`${process.env.NEXT_API_URL}/image/${data.avatar}`}
         sx={{ "&:hover": { filter: "brightness(80%)" } }}
         onClick={() => fileInput.current?.click()}
       />

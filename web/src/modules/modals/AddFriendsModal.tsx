@@ -52,7 +52,7 @@ export function AddFriendsModal({
         <UserProfileButton
           key={user.id}
           name={user.name}
-          image={`http://localhost:3001/image/${user.avatar}`}
+          image={`${process.env.NEXT_API_URL}/image/${user.avatar}`}
           onClick={() => onClick([currentId!, user.id])}
         />
       ))}
