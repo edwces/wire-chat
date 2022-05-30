@@ -8,7 +8,6 @@ export default {
   user: environment.db.username,
   password: environment.db.password,
   dbName: environment.db.name,
-  clientUrl: process.env.DATABASE_URL,
   debug: true,
   entities: ["dist/**/*.entity.js"],
   entitiesTs: ["src/**/*.entity.ts"],
