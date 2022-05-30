@@ -28,7 +28,10 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
     if (!ticket) return;
 
     const socket = new WebSocket(
-      `${process.env.NEXT_PUBLIC_API_URL}/?ticket=${ticket}`
+      `${process.env.NEXT_PUBLIC_API_URL?.replace(
+        "http",
+        "ws"
+      )}/?ticket=${ticket}`
     );
 
     socket.addEventListener("open", (_) => {
