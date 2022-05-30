@@ -28,7 +28,9 @@ export function ConversationsList({ data = [] }: ConversationsListProps) {
           <ConversationButton
             key={conversation.id}
             id={conversation.id}
-            image={`${process.env.NEXT_API_URL}/image/${receiver!.avatar}`}
+            image={`${process.env.NEXT_PUBLIC_API_URL}/image/${
+              receiver!.avatar
+            }`}
             name={receiver!.name}
             isSelected={router.query.id == conversation.id}
           />

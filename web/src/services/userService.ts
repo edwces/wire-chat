@@ -16,7 +16,7 @@ export function getAllUsers(): Promise<User[]> {
 }
 
 export function uploadAvatarImage(id: number, data: FormData) {
-  return fetch(`${process.env.NEXT_API_URL}/user/${id}/avatar`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}/avatar`, {
     method: "POST",
     body: data,
   }).then((response) => response.json());

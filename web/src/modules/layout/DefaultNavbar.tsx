@@ -75,7 +75,7 @@ export function DefaultNavbar() {
       >
         <UserProfileButton
           name={user.data?.name}
-          image={`${process.env.NEXT_API_URL}/image/${user.data?.avatar}`}
+          image={`${process.env.NEXT_PUBLIC_API_URL}/image/${user.data?.avatar}`}
         />
       </Navbar.Section>
     </Navbar>
