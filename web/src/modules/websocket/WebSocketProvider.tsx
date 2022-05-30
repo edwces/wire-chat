@@ -27,7 +27,9 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
   useEffect(() => {
     if (!ticket) return;
 
-    const socket = new WebSocket(`ws://localhost:3001/?ticket=${ticket}`);
+    const socket = new WebSocket(
+      `${process.env.NEXT_API_URL}/?ticket=${ticket}`
+    );
 
     socket.addEventListener("open", (_) => {
       connect(socket);
