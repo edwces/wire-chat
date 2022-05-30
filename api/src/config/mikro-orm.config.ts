@@ -1,8 +1,10 @@
 import environment from "./environment";
 import { Options } from "@mikro-orm/core";
+import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 
 export default {
   type: "postgresql",
+  driver: PostgreSqlDriver,
   host: environment.db.host,
   port: environment.db.port,
   user: environment.db.username,
