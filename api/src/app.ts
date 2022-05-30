@@ -1,7 +1,7 @@
 import { MikroORM, RequestContext } from "@mikro-orm/core";
 import { EntityManager } from "@mikro-orm/postgresql";
 import express from "express";
-import { mikroOrmConfig } from "./config";
+import { environment, mikroOrmConfig } from "./config";
 import cors from "cors";
 import { userRouter } from "./modules/user";
 import { conversationRouter } from "./modules/conversation";
@@ -56,8 +56,8 @@ export async function bootstrap() {
     });
   });
 
-  server.listen(3001, () => {
-    console.log("Server started at http://localhost:3001");
+  server.listen(environment.port, () => {
+    console.log(`Server started at http://localhost:${environment.port}`);
   });
 }
 
