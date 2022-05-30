@@ -35,7 +35,7 @@ export async function bootstrap() {
   const wss = new webSocket.Server({ noServer: true });
 
   wss.on("connection", wsHandle(orm));
-  server.on("upgrade", (request, socket, head) => {
+  server.on("upgrade", async (request, socket, head) => {
     const url = new URL(request.url!, `http://${request.headers.host}`);
     const ticket = url.searchParams.get("ticket");
     if (!ticket) {
@@ -43,7 +43,7 @@ export async function bootstrap() {
       socket.destroy();
       return;
     }
-    const userId = redis.get(ticket!);
+    const userId = await redis.get(ticket!);
     if (!userId) {
       socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
       socket.destroy();
@@ -51,7 +51,8 @@ export async function bootstrap() {
     }
 
     wss.handleUpgrade(request, socket, head, (ws) => {
-      wss.emit("connection", ws, request);
+      const user = { id: userId };
+      wss.emit("connection", ws, request, user);
     });
   });
 

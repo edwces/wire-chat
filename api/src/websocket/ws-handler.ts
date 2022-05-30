@@ -3,6 +3,9 @@ import { WebSocket } from "ws";
 import { Message } from "../db/entities/message.entity";
 import { WebSocketMessage } from "../types/interfaces/websocket-message";
 import { v4 } from "uuid";
+import redis from "../redis";
+import { IncomingMessage } from "node:http";
+import { User } from "../db/entities/user.entity";
 
 type Room = Set<string>;
 
@@ -50,55 +53,62 @@ class WebSocketHandler {
 }
 
 const webSocketHandler = new WebSocketHandler();
-export const wsHandle = (orm: MikroORM) => (connection: WebSocket) => {
-  const sockUuid = v4();
-  let isAlive = true;
-  connection.on("pong", () => {
-    isAlive = true;
-  });
+export const wsHandle =
+  (orm: MikroORM) =>
+  (connection: WebSocket, request: IncomingMessage, user: { id: number }) => {
+    const sockUuid = v4();
+    let isAlive = true;
+    connection.on("pong", () => {
+      isAlive = true;
+    });
 
-  const heartbeat = () => {
-    if (!isAlive) connection.terminate();
-    connection.ping();
-    isAlive = false;
+    const heartbeat = () => {
+      if (!isAlive) connection.terminate();
+      connection.ping();
+      isAlive = false;
+    };
+    const heartbeatId = setInterval(heartbeat, 20_000);
+
+    connection.on("message", async (raw) => {
+      // create new em context
+      const em = orm.em.fork();
+
+      // parse data
+      const event: WebSocketMessage = JSON.parse(raw.toString("utf8"));
+
+      // handle different types
+      if (event.type === "TEXT_MESSAGE") {
+        // update db and invalidate queries on all client
+        const { conversation, content, sender } = event.data;
+        const message = em.create(Message, {
+          conversation,
+          participant: sender,
+          content,
+        });
+        await em.persistAndFlush(message);
+
+        // invalidate data on client
+        webSocketHandler.broadcast(Number.parseInt(conversation), {
+          type: "INVALIDATE_DATA",
+          data: { entity: ["conversation", "messages"] },
+        });
+      } else if (event.type === "JOIN_ROOM") {
+        const roomId = Number.parseInt(event.data.id);
+        const currentUser = await em.findOne(User, { id: user.id });
+        const conversations = await currentUser?.conversations.init({
+          where: { id: roomId },
+        });
+        if (conversations?.count()) return;
+
+        webSocketHandler.join(roomId, sockUuid, connection);
+      } else if (event.type === "LEAVE_ROOM") {
+        const roomId = Number.parseInt(event.data.id);
+        webSocketHandler.leave(roomId, sockUuid);
+      }
+    });
+
+    connection.on("close", (event) => {
+      webSocketHandler.close(sockUuid);
+      clearInterval(heartbeatId);
+    });
   };
-  const heartbeatId = setInterval(heartbeat, 20_000);
-
-  connection.on("message", async (raw) => {
-    // create new em context
-    const em = orm.em.fork();
-
-    // parse data
-    const event: WebSocketMessage = JSON.parse(raw.toString("utf8"));
-
-    // handle different types
-    if (event.type === "TEXT_MESSAGE") {
-      // update db and invalidate queries on all client
-      const { conversation, content, sender } = event.data;
-      const message = em.create(Message, {
-        conversation,
-        participant: sender,
-        content,
-      });
-      await em.persistAndFlush(message);
-
-      // invalidate data on client
-      webSocketHandler.broadcast(Number.parseInt(conversation), {
-        type: "INVALIDATE_DATA",
-        data: { entity: ["conversation", "messages"] },
-      });
-    } else if (event.type === "JOIN_ROOM") {
-      const roomId = Number.parseInt(event.data.id);
-
-      webSocketHandler.join(roomId, sockUuid, connection);
-    } else if (event.type === "LEAVE_ROOM") {
-      const roomId = Number.parseInt(event.data.id);
-      webSocketHandler.leave(roomId, sockUuid);
-    }
-  });
-
-  connection.on("close", (event) => {
-    webSocketHandler.close(sockUuid);
-    clearInterval(heartbeatId);
-  });
-};
