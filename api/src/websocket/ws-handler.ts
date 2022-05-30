@@ -80,27 +80,34 @@ export const wsHandle =
       if (event.type === "TEXT_MESSAGE") {
         // update db and invalidate queries on all client
         const { conversation, content, sender } = event.data;
-        const message = em.create(Message, {
-          conversation,
-          participant: sender,
-          content,
-        });
-        await em.persistAndFlush(message);
 
-        // invalidate data on client
-        webSocketHandler.broadcast(Number.parseInt(conversation), {
-          type: "INVALIDATE_DATA",
-          data: { entity: ["conversation", "messages"] },
+        const currentUser = await em.findOne(User, { id: user.id });
+        const conversations = await currentUser?.conversations.init({
+          where: { id: conversation },
         });
+        if (conversations?.count()) {
+          const message = em.create(Message, {
+            conversation,
+            participant: sender,
+            content,
+          });
+          await em.persistAndFlush(message);
+
+          // invalidate data on client
+          webSocketHandler.broadcast(Number.parseInt(conversation), {
+            type: "INVALIDATE_DATA",
+            data: { entity: ["conversation", "messages"] },
+          });
+        }
       } else if (event.type === "JOIN_ROOM") {
         const roomId = Number.parseInt(event.data.id);
         const currentUser = await em.findOne(User, { id: user.id });
         const conversations = await currentUser?.conversations.init({
           where: { id: roomId },
         });
-        if (conversations?.count()) return;
-
-        webSocketHandler.join(roomId, sockUuid, connection);
+        if (conversations?.count()) {
+          webSocketHandler.join(roomId, sockUuid, connection);
+        }
       } else if (event.type === "LEAVE_ROOM") {
         const roomId = Number.parseInt(event.data.id);
         webSocketHandler.leave(roomId, sockUuid);
