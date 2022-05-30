@@ -12,6 +12,9 @@ const {
   DB_PASSWORD,
   JWT_SECRET_ACCESS,
   JWT_SECRET_REFRESH,
+  REDIS_HOST,
+  REDIS_PASSWORD,
+  REDIS_PORT,
 } = process.env;
 
 export default {
@@ -26,5 +29,10 @@ export default {
   jwt: {
     refreshSecret: JWT_SECRET_ACCESS!,
     accessSecret: JWT_SECRET_REFRESH!,
+  },
+  redis: {
+    host: REDIS_HOST,
+    password: REDIS_PASSWORD,
+    port: Number.parseInt(REDIS_PORT!),
   },
 };
