@@ -10,7 +10,7 @@ export default {
   user: environment.db.username,
   password: environment.db.password,
   dbName: environment.db.name,
-  debug: true,
+  debug: false,
   entities: ["dist/**/*.entity.js"],
   entitiesTs: ["src/**/*.entity.ts"],
   migrations: {
@@ -20,8 +20,5 @@ export default {
   seeder: {
     pathTs: "src/db/seeder",
     path: "dist/db/seeder",
-  },
-  driverOptions: {
-    connection: { ssl: { rejectUnauthorized: false } },
   },
 } as Options;

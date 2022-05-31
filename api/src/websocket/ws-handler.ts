@@ -26,13 +26,14 @@ class WebSocketHandler {
 
   leave(id: number, socketId: string) {
     if (!this.rooms.get(id)) return null;
+    if (!this.rooms.get(id)?.has(socketId)) return null;
     if (this.rooms.get(id)?.size === 1) this.rooms.delete(id);
 
     this.rooms.get(id)?.delete(socketId);
   }
 
   join(id: number, socketId: string, connection: WebSocket) {
-    if (!(id in this.rooms)) {
+    if (!this.rooms.has(id)) {
       this.rooms.set(id, new Set());
     }
     if (socketId in this.rooms.get(id)!) return true;
