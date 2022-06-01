@@ -33,7 +33,7 @@ export const loginUser = async (request: Request, response: Response) => {
   if (!user) return response.sendStatus(401);
 
   // check if password is correct
-  const isValid = argon2.verify(user.password, password);
+  const isValid = await argon2.verify(user.password, password);
   if (!isValid) return response.sendStatus(401);
 
   const userDetails = {
