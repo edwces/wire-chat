@@ -1,9 +1,10 @@
-import { Avatar, Box, Stack } from "@mantine/core";
+import { Avatar, Box, Button, Stack } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
-import { uploadAvatarImage } from "../../services";
+import { setAccessToken, uploadAvatarImage } from "../../services";
 
 export function UserSettingsModal({
   id,
@@ -12,6 +13,7 @@ export function UserSettingsModal({
 }: ContextModalProps) {
   const fileInput = useRef<HTMLInputElement>(null);
   const { data } = useCurrentUser();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const uploadAvatarMutation = useMutation(
     (params: { id: number; formData: FormData }) =>
@@ -50,6 +52,15 @@ export function UserSettingsModal({
           onChange={onFileChange}
         />
       </Box>
+      <Button
+        onClick={() => {
+          context.closeModal(id);
+          setAccessToken("");
+          router.push("/account/login");
+        }}
+      >
+        Logout
+      </Button>
     </Stack>
   );
 }
