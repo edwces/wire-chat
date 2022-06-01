@@ -6,11 +6,7 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import {
-  ConversationSearch,
-  ConversationsList,
-  useUserConversations,
-} from "../navigation";
+import { ConversationsList, useUserConversations } from "../navigation";
 import { UserProfileButton } from "../navigation/UserProfileButton";
 import { UserPlus } from "tabler-icons-react";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
@@ -61,7 +57,6 @@ export function DefaultNavbar() {
         })}
       >
         <Stack spacing="xl">
-          <ConversationSearch />
           <ScrollArea>
             <ConversationsList data={data} />
           </ScrollArea>
