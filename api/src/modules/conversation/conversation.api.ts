@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { requireAuth } from "../../middleware";
 import {
   createNewConversation,
   getAllConversationMessages,
@@ -7,6 +8,6 @@ import {
 
 export const conversation = Router();
 
-conversation.get("/:id/messages", getAllConversationMessages);
-conversation.get("/:id/participants", getAllParticipants);
-conversation.post("/", createNewConversation);
+conversation.get("/:id/messages", requireAuth, getAllConversationMessages);
+conversation.get("/:id/participants", requireAuth, getAllParticipants);
+conversation.post("/", requireAuth, createNewConversation);

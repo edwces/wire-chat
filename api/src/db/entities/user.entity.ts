@@ -8,6 +8,10 @@ import {
 import { Conversation } from "./conversation.entity";
 import { CustomBaseEntity } from "./shared/base.entity";
 
+export enum UserRole {
+  USER = "USER",
+  ADMIN = "ADMIN",
+}
 @Entity()
 export class User extends CustomBaseEntity {
   @PrimaryKey()
@@ -19,11 +23,14 @@ export class User extends CustomBaseEntity {
   @Property()
   email!: string;
 
-  @Property()
+  @Property({ hidden: true })
   password!: string;
 
   @Property({ default: "default-avatar.jpg" })
   avatar?: string;
+
+  @Property({ default: UserRole.USER })
+  role?: UserRole;
 
   @ManyToMany(() => Conversation, "participants", { owner: true })
   conversations = new Collection<Conversation>(this);
